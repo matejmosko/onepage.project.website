@@ -1,0 +1,218 @@
+@import url(http://fonts.googleapis.com/css?family=Righteous&subset=latin,latin-ext);
+body {
+    font-family: "Righteous", sans-serif;
+}
+
+body {
+    background: url('../img/bg-stripes.jpg');
+    background-color: #e4986c;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+/* FLEX */
+
+#wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    align-items:center;
+}
+
+#footer {
+    width: 100%;
+}
+
+
+/* STYLING */
+
+h1,h2,h3 {
+    text-align: center;
+    margin: 50px 0 10px 0;
+    padding: 3px 0px;
+    color: indianred;
+    width: auto;
+    background-color: floralwhite;
+    flex: 1 0 100%;
+}
+h1{
+    font-size: 40px;    
+}
+h2{
+    font-size: 30px;
+}
+
+p,
+ul,
+ol,
+form {
+    font-size: 24px;
+    margin: 10px auto;
+    width: 800px;
+    flex: 0 1 auto;
+    font-weight: normal;
+    background: floralwhite;
+    color: #444;
+    padding: 4px;
+    list-style-position: inside;
+}
+
+p,ul,ol{
+	padding: 10px;
+}
+p img{
+}
+form ol{
+	padding:4px;
+}
+p {text-align: center;}
+
+a {
+    color: indianred;
+}
+
+a:hover {
+    text-decoration: none
+}
+
+.center {
+    width: 720px;
+    flex: 0 1 auto;
+    margin: 0 auto;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+.archive{
+    margin: 10px;
+    flex: 1 1 350px;  
+    max-width:600px; 
+}
+.cover {
+    border: 12px solid floralwhite;
+}
+
+.vysledky {
+    width: 700px;
+}
+
+.social {
+    margin: 10px auto;
+    padding: 10px 0px;
+    border-top: 1px dashed floralwhite;
+    border-bottom: 1px dashed floralwhite;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.social img {
+    width: 80px;
+    margin: auto;
+}
+
+ul#menu {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    background: none;
+    padding: 0;
+}
+
+#menu li {
+    list-style: none;
+    padding: 3px;
+    margin: 5px 20px;
+    background-color: floralwhite;
+}
+
+#menu li a {
+    text-decoration: none;
+}
+
+#menu li a:hover {
+    color: #444;
+}
+
+#menu-button{
+    display:block;
+    position: fixed;
+    top:10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    background: url('../img/menu-button.png') 0 0;
+}
+#menu-button:hover{
+//    background: url('../img/menu-button.png') -50px 0;
+}
+#menu-button a{
+	//visibility: hidden;
+	display: block;
+	height: 50px;
+	width: 50px;
+}
+#menu-button a:hover {
+    background: url('../img/menu-button.png') -50px 0;
+}
+
+/* Google Form */
+
+form {
+    width: 500px;
+    padding: 15px;
+}
+
+form ol {
+    width: 100%;
+}
+
+form div {
+    text-align: left;
+}
+
+form .ss-secondary-text {
+    font-size: small;
+    color: #555;
+}
+
+form .required-message {
+    display: none;
+}
+
+form textarea,
+form input {
+    /*  display: block;
+  margin: 0px auto;*/
+    width: 98%;
+    max-width: 98%;
+    border: 1px solid lightsteelblue;
+    font-family: monospace, "Courier New";
+    font-size: initial;
+    background: white;
+    color: #333;
+}
+
+form table {
+    width: 100%;
+}
+
+form .ss-q-title {
+    margin-top: 10px;
+}
+
+@media all and (min-width: 1600px),
+{
+    body {
+        background-size: 100% auto;
+    }
+}
