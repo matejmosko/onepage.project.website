@@ -8,7 +8,6 @@
 include_once "libs/Parsedown.php";
 include_once "libs/ParsedownExtra.php";
 include_once "variables.php";
-
 /** MENU **/
 
 
@@ -44,8 +43,8 @@ function get_google_form( $url )
     return $header;
 }
 
-function show_google_form($url,$formid,$formtitle,$nextquiz){
-    echo '<h2 id="'.$formid.'">'.$formtitle.'</h2>';
+function render_old_google_form($url,$formid,$formtitle){
+    $content = '<h2 id="'.$formid.'">'.$formtitle.'</h2>';
     $gform = get_google_form($url);
 
     $dom = new DOMDocument();
@@ -54,11 +53,15 @@ $dom->loadHTML($gform['content']); // Returned $data from CURL request
     $forms = $dom->getElementsByTagName('form');
 
     foreach($forms as $form){
-    $content = $dom->saveHTML($form);
+    $content .= $dom->saveHTML($form);
     }
-    echo $content;
-    $next = filter_events('next');
-echo '<p class="small-img"><img src="events/'.$next[0].'/img.jpg" /></p>';
+    if (!empty(filter_events('next'))){ echo $content;};
+}
+function render_new_google_form($url,$formid,$formtitle,$height){
+    $content = '<h2 id="'.$formid.'">'.$formtitle.'</h2>';
+    $content .= '<iframe src="'.$url.'" width="760" height="'.$height.'" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>';
+    if (!empty(filter_events('next'))){ echo $content;};
+
 }
 
 function render_menu($menuitems){
@@ -90,9 +93,9 @@ function filter_events($filter){
   $list_events = scandir('events/');
   foreach (array_slice($list_events,2) as $event){
     $date = substr($event,0,10);
-    //echo $date.'<br />';
-    if (strtotime($date) >= time()) $next_events[] = $event;
-    if (strtotime($date) < time()) $past_events[] = $event;
+    $today = strtotime(date('Y-m-d'));
+    if (strtotime($date) >= $today) $next_events[] = $event;
+    if (strtotime($date) < $today) $past_events[] = $event;
   }
   if ($filter == 'next') return $next_events;
   if ($filter == 'past') return $past_events;
@@ -100,13 +103,14 @@ function filter_events($filter){
 }
 
 function render_events($filter){
+  global $vars;
   $events = filter_events($filter);
+  if (!empty($events)){ echo '<h2 id="najblizsia-hra">'.$vars['events_header'].'</h2>';}
   foreach ($events as $event){
     $path = 'events/'.$event.'/';
-echo '<h2 id="najblizsia-hra">Kedy a kde</h2>';
-echo '<div class="event">';
-    render_file($path.'event.md');
+    echo '<div class="event">';
     echo '<img src="'.$path.'img.jpg" />';
+    render_file($path.'event.md');
     echo '</div>';
   }
 }
