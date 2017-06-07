@@ -59,7 +59,7 @@ $dom->loadHTML($gform['content']); // Returned $data from CURL request
 }
 function render_new_google_form($url,$formid,$formtitle,$height){
     $content = '<h2 id="'.$formid.'">'.$formtitle.'</h2>';
-    $content .= '<iframe src="'.$url.'" width="760" height="'.$height.'" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>';
+    $content .= '<iframe src="'.$url.'" width="760" height="'.$height.'" frameborder="0" marginheight="0" marginwidth="0">'.$strings['loading'].'</iframe>';
     if (!empty(filter_events('next'))){ echo $content;};
 
 }
@@ -93,6 +93,7 @@ function filter_events($filter){
   $list_events = scandir('events/');
   foreach (array_slice($list_events,2) as $event){
     $date = substr($event,0,10);
+    //echo $date.'<br />';
     $today = strtotime(date('Y-m-d'));
     if (strtotime($date) >= $today) $next_events[] = $event;
     if (strtotime($date) < $today) $past_events[] = $event;
@@ -102,16 +103,35 @@ function filter_events($filter){
 
 }
 
-function render_events($filter){
-  global $vars;
+function render_events($filter,$render_md,$sort){
+  global $strings;
   $events = filter_events($filter);
-  if (!empty($events)){ echo '<h2 id="najblizsia-hra">'.$vars['events_header'].'</h2>';}
+  if ($sort == 'desc') {rsort($events);}
+  if ($sort == 'asc') {sort($events);}
+  if (!empty($events) && $filter == 'next'){ echo '<h2 id="najblizsia-hra">'.$strings['events_next'].'</h2>';}
+  if (!empty($events) && $filter == 'past'){ echo '<h2 id="najblizsia-hra">'.$strings['events_past'].'</h2>';}
   foreach ($events as $event){
     $path = 'events/'.$event.'/';
     echo '<div class="event">';
-    echo '<img src="'.$path.'img.jpg" />';
-    render_file($path.'event.md');
+    if (file_exists($path.'img.jpg')){echo '<img src="'.$path.'img.jpg" />';}
+    if (file_exists($path.'event.md') && $render_md){render_file($path.'event.md');}
+    if (!empty($events) && $filter == 'next') {echo '<p><a class="op-button" href="#registracia">'.$strings['register_to_event'].'</a></p>';}
     echo '</div>';
   }
+}
+function next_event_pic(){
+  $events = filter_events('next');
+  if (!empty($events)){ return 'events/'.$events[0].'/img.jpg';} else { return 'img/default-cover.jpg';}
+}
+
+function render_picfolder($path){
+  if (file_exists($path.'/desc.md')){render_file($path.'/desc.md');}
+  $pics = array_diff(scandir($path), array('..', '.','orig','desc.md'));
+  natsort($pics);
+  $pics = array_reverse($pics,true);
+  foreach ($pics as $picture){
+    $picname = preg_replace('/\\.[^.\\s]{3,4}$/', '', $picture);
+    echo '<p class="archive"><a rel="lightbox-mudrosti" title="'.$picname.'" href="'.$path.'/'.$picture.'"><img src="'.$path.'/'.$picture.'" /></a></p>';
+}
 }
 ?>

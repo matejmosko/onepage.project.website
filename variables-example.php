@@ -14,6 +14,12 @@ $vars = array(
     "fb_appid" => "",
     "favicon" => "favicon.png"
 );
+$strings = array(
+    "events_past" => "Previous events",
+    "events_next" => "Upcoming events",
+    "register_to_event" => "I want to register for this event",
+    "loading" => "Loading..."
+);
 $menu = array(
   array(
       "name" => "Menu 1",
